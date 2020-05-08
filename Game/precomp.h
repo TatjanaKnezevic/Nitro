@@ -10,6 +10,8 @@
 #include <array>
 #include <vector>
 #include <set>
+#include <map>
+#include <unordered_map>
 #include <random>
 
 #include "Logger/Logger.h"
@@ -23,4 +25,7 @@ using vec4 = glm::vec4;
 using mat4x4 = glm::mat4x4;
 using Color = glm::u8vec4;
 
+#include <SDL_mixer.h>
+
 #include "Engine.h"
+#include "MathUtil.h"

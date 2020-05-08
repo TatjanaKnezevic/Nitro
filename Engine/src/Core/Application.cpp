@@ -1,5 +1,5 @@
 #include "precomp.h"
-#include "Application.h"
+#include <SDL.h>
 #include "ECS/EntityManager.h"
 #include "Input/InputManager.h"
 #include "Render/RenderSystem.h"
@@ -10,7 +10,11 @@
 #include "Render/TextureManager.h"
 #include "Physics/PhysicsSystem.h"
 
-#include <SDL.h>
+
+#include "Audio/AudioManager.h"
+
+#include "Application.h"
+
 
 namespace Engine {
 
@@ -28,6 +32,13 @@ namespace Engine {
         if (!m_RenderSystem->Init(m_WindowData))
         {
             LOG_CRITICAL("Failed to initialize RenderSystem");
+            return false;
+        }
+
+        m_AudioManager = std::make_unique<AudioManager>();
+        if (!m_AudioManager->Init())
+        {
+            LOG_CRITICAL("Failed to initialize AudioManager");
             return false;
         }
 
@@ -104,7 +115,7 @@ namespace Engine {
 
             float deltaTime = (frameTime - previousFrameTime) / static_cast<float>(SDL_GetPerformanceFrequency());
 
-           // LOG_INFO("Current FPS: {}", 1.f / deltaTime);
+            //LOG_INFO("Current FPS: {}", 1.f / deltaTime);
             Update(deltaTime);
 
             previousFrameTime = frameTime;

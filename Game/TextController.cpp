@@ -68,7 +68,7 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 		switch (info->m_Type) {
 		case TextInfoType::Speed: {
 			auto speed = info->m_PlayerEntity->GetComponent<CarPhysicsComponent>();
-			tekst->m_text = std::to_string((int)speed->m_Speed);
+			tekst->m_text = std::to_string((int)speed->m_CarSpeed);
 			break;
 		}
 		case TextInfoType::Kmh: { break;}
@@ -94,7 +94,7 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 			}
 		}
 		default: {
-			LOG_CRITICAL("Enum for text type does not exist.");
+			//LOG_CRITICAL("Enum for text type does not exist.");
 
 		}
 		}

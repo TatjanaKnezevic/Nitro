@@ -13,13 +13,16 @@
 #include <array>
 #include <vector>
 #include <set>
+#include <map>
+#include <unordered_map>
 
 #include <SDL.h>
-
+#include <SDL_mixer.h>
 #include "Logger/Logger.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 using vec2 = glm::vec2;
 using vec3 = glm::vec3;

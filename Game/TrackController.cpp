@@ -1,60 +1,8 @@
 #include "precomp.h"
 #include "GameComponents.h"
 #include "TrackPatternGenerator.h"
-
 #include "TrackController.h"
 
-
-
-
-
-namespace Nitro {
-
-
-
-	int ModuloDist(int a, int b, int modulo)
-	{
-		int value = b - a;
-		int mod = value % modulo;
-		if (value < 0)
-		{
-			mod += modulo;
-		}
-		return mod;
-	}
-	int ModuloDecrement(int a, int modulo)
-	{
-		a -= 1;
-		if (a < 0)
-		{
-			a += modulo;
-		}
-		return a;
-	}
-	int ModuloIncrement(int a, int modulo)
-	{
-		return (a + 1) % modulo;
-	}
-
-	int ModuloSub(int a, int b, int modulo)
-	{
-		a -= b;
-		if (a < 0)
-		{
-			a += modulo;
-		}
-		return a;
-	}
-
-	int ModuloAdd(int a, int b, int modulo)
-	{
-		a += b;
-		return a % modulo;
-	}
-
-	
-
-}
 
 
 // TODO(Marko): convert all of these to int, no need for floating point operations
@@ -110,13 +58,13 @@ bool Nitro::TrackController::Init(Engine::Renderer* renderer_, Engine::EntityMan
 		return false;
 	}
 
-	Engine::Matrix<TileType> track(36, 12);
+	Engine::Matrix<TileType> track(36, 21);
 	std::fill(std::begin(track), std::end(track), TileType::water);
 
 	
 
-	vec2 tileSize{ 256.f, 512.f };
-	int mainTrackColumnBegin = 3;
+	vec2 tileSize{ 256.f, 256.f };
+	int mainTrackColumnBegin = 7;
 	int mainTrackColumnEnd = mainTrackColumnBegin + m_TrackPatternGenerator.Cols();
 	for (int i = 0; i < track.Rows(); ++i)
 	{

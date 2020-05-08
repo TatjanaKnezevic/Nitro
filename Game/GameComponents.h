@@ -16,7 +16,9 @@ namespace Nitro
 		
 		water_water_beach,
 		beach_water_water,
-
+		park1,
+		park2,
+		beach_trees_grass,
 		TileTypeCount
 	};
 
@@ -33,7 +35,11 @@ namespace Nitro
 			
 		case TileType::water_water_beach: return "water_water_beach";
 		case TileType::beach_water_water: return "beach_water_water";
-			
+		case TileType::park1: return "park1";
+		case TileType::park2: return "park2";
+		case TileType::beach_trees_grass: return "beach_trees_grass";
+
+
 		case TileType::water_deep: return "water_deep";
 
 		default:
@@ -77,8 +83,16 @@ namespace Nitro
 	struct CarPhysicsComponent : public Engine::Component
 	{
 		float m_Acceleration{};
-		float m_Mass{};
-		float m_Speed{};
+		float m_CarSpeed{};
+		float m_SteerAngle{};
+		float m_CarHeading{};
+		float m_WheelBase{};
+		float m_BreakSpeed{};
+		float m_Drag{};
+		float m_MaxSpeed{};
+		float m_MinSpeed{};
+		float m_SteerSpeed{};
+
 	};
 
 	struct TileInfoComponent : public Engine::Component
@@ -118,5 +132,15 @@ namespace Nitro
 		TextInfoComponent(PlayerTag PlayerTag, TextInfoType Type, Engine::Entity* Player ) : m_PlayerTag(PlayerTag), m_Type(Type),m_PlayerEntity(Player) {}
 	};
 	
+
+	struct JumpingComponent : public Engine::Component
+	{
+		vec2 m_OriginalModelSize;
+		bool m_InTheAir{ false };
+		float m_AirbornTimeLeft{ -1.f };
+		float m_JumpTimeLength;
+		float m_JumpTimeCooldownLeft;
+		float m_JumpTimeCooldownLength;
+	};
 	
 }
