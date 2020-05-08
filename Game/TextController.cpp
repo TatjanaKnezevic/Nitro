@@ -66,12 +66,17 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 		auto info = text->GetComponent<TextInfoComponent>();
 
 		switch (info->m_Type) {
-		case TextInfoType::Speed: {
+		case TextInfoType::Speed: 
+		{
 			auto speed = info->m_PlayerEntity->GetComponent<CarPhysicsComponent>();
 			tekst->m_text = std::to_string((int)speed->m_CarSpeed);
-			break;
 		}
-		case TextInfoType::Kmh: { break;}
+		break;
+		case TextInfoType::Kmh: 
+		{ 
+
+		}
+		break;
 		case TextInfoType::Distance: {
 			auto transform = info->m_PlayerEntity->GetComponent<Engine::TransformComponent>();
 			auto newPosition = transform->m_Position.y;
@@ -81,7 +86,6 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 					std::string s = std::to_string(Distance1);
 					tekst->m_text = s;
 					oldPosition1 = (int)newPosition;
-					break;
 				}
 			} else {
 				if (oldPosition2 - 10 > (int)newPosition) {
@@ -89,10 +93,10 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 					std::string s = std::to_string(Distance2);
 					tekst->m_text = s;
 					oldPosition2 = (int)newPosition;
-					break;
 				}
 			}
-		}
+		} 
+		break;
 		default: {
 			//LOG_CRITICAL("Enum for text type does not exist.");
 
