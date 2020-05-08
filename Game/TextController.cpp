@@ -52,6 +52,19 @@ bool Nitro::TextController::Init(Engine::EntityManager* entityManager_) {
 	mile2->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Distance, player2);
 	entityManager_->AddEntity(std::move(mile2));
 
+	auto chaser = Engine::Entity::Create();
+	chaser->AddComponent<Engine::TextComponent>("CHASER");
+	chaser->AddComponent<Engine::TransformComponent>(120.f, 15.f);
+	chaser->AddComponent<TextInfoComponent>(PlayerTag::One, TextInfoType::Runner, player1);
+	entityManager_->AddEntity(std::move(chaser));
+
+	auto runner = Engine::Entity::Create();
+	runner->AddComponent<Engine::TextComponent>("RUNNER");
+	runner->AddComponent<Engine::TransformComponent>(1000.f, 15.f);
+	runner->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Runner, player2);
+	entityManager_->AddEntity(std::move(runner));
+
+
 	return true;
 }
 
@@ -69,11 +82,16 @@ void Nitro::TextController::Update(float dt_, Engine::EntityManager* entityManag
 		case TextInfoType::Speed: 
 		{
 			auto speed = info->m_PlayerEntity->GetComponent<CarPhysicsComponent>();
-			tekst->m_text = std::to_string((int)speed->m_CarSpeed);
+			tekst->m_text = std::to_string((int)speed->m_CarSpeed/4);
 		}
 		break;
 		case TextInfoType::Kmh: 
 		{ 
+
+		}
+		break;
+		case TextInfoType::Runner:
+		{
 
 		}
 		break;

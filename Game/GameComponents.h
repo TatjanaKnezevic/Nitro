@@ -55,6 +55,12 @@ namespace Nitro
 		Two = 2
 	};
 
+	enum class TheChase
+	{
+		Chaser = 1,
+		Runner = 2
+	};
+
 	inline int
 	PlayerTagToInt(PlayerTag p)
 	{
@@ -68,6 +74,18 @@ namespace Nitro
 		return static_cast<PlayerTag>(p);
 	}
 
+	inline int
+		TheChaseToInt(TheChase p)
+	{
+		return static_cast<int>(p);
+	}
+
+	inline TheChase
+		TheChaseFromInt(int p)
+	{
+		ASSERT(p == 1 || p == 2, "int TheChase value must be 1 or 2");
+		return static_cast<TheChase>(p);
+	}
 	
 	
 	struct PlayerTagComponent : public Engine::Component
@@ -75,6 +93,15 @@ namespace Nitro
 		PlayerTag m_PlayerTag;
 		explicit PlayerTagComponent(PlayerTag playerTag_)
 			: m_PlayerTag(playerTag_)
+		{
+		}
+	};
+
+	struct TheChaseComponent : public Engine::Component
+	{
+		TheChase m_TheChase;
+		explicit TheChaseComponent(TheChase theChase_)
+			: m_TheChase(theChase_)
 		{
 		}
 	};
@@ -120,7 +147,8 @@ namespace Nitro
 	enum class TextInfoType {
 		Kmh,
 		Speed,
-		Distance
+		Distance,
+		Runner,
 	};
 
 	struct TextInfoComponent : public Engine::Component

@@ -140,6 +140,7 @@
     <ClCompile Include="precomp.cpp" />
     <ClCompile Include="TextController.cpp" />
     <ClCompile Include="TextureController.cpp" />
+    <ClCompile Include="TheChase.cpp" />
     <ClCompile Include="TrackController.cpp" />
     <ClCompile Include="TrackPatternGenerator.cpp" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="DebugController.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameComponents.h" />
+    <ClInclude Include="TheChase.h" />
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="precomp.h" />

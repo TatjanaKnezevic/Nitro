@@ -12,6 +12,7 @@
 #include "TrackController.h"
 #include "TextController.h"
 #include "AudioController.h"
+#include "TheChase.h"
 
 void Nitro::GameApp::GameSpecificWindowData()
 {
@@ -76,6 +77,12 @@ bool Nitro::GameApp::GameSpecificInit()
 		return false;
 	}
 
+	m_TheChaseController = TheChaseController::Create();
+	if (!m_TheChaseController->Init(m_EntityManager.get(), m_TextureManager.get()))
+	{
+		LOG_ERROR("Failed to initilize AUdioController");
+		return false;
+	}
 
 	return true;
 }
@@ -90,8 +97,9 @@ void Nitro::GameApp::GameSpecificUpdate(float dt)
 #if _DEBUG
 	m_DebugController->Update(dt, m_EntityManager.get());
 #endif
-	m_PlayerController->Update(dt, m_EntityManager.get(), m_AudioManager.get());
+	m_PlayerController->Update(dt, m_EntityManager.get(), m_AudioManager.get(),&chaseWon,&runnerWon, m_TextureManager.get());
 	m_TextController->Update(dt, m_EntityManager.get());
 	m_CameraController->Update(dt, m_EntityManager.get());
 	m_TrackController->Update(dt, m_EntityManager.get(), m_TextureManager.get());
+	m_TheChaseController->Update(dt, m_EntityManager.get(), m_TextureManager.get(), chaseWon, runnerWon);
 }

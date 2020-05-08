@@ -3,6 +3,7 @@
 #include "GameComponents.h"
 #include "glm/gtx/string_cast.hpp"
 #include "glm/gtx/perpendicular.hpp"
+#include <Math.h>
 
 namespace Nitro
 {
@@ -71,10 +72,15 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 		input.inputActions.emplace_back(fmt::format("Player{}MoveLeft", i));
 		input.inputActions.emplace_back(fmt::format("Player{}MoveRight", i));
 		input.inputActions.emplace_back(fmt::format("Player{}Jump", i));
+		if (i == 2)
+		{
+			input.inputActions.emplace_back(fmt::format("Player{}Throw", i));
+		}
 
 		// input.inputActions.emplace_back("Player1Jump");
 
 		player->AddComponent<PlayerTagComponent>(PlayerTagFromInt(i));
+		player->AddComponent<TheChaseComponent>(TheChaseFromInt(i));
 
 		auto& physics = player->AddComponent<CarPhysicsComponent>();
 
@@ -98,7 +104,7 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 
 
 
-void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityManager_, Engine::AudioManager* audioManager_)
+void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityManager_, Engine::AudioManager* audioManager_, bool* chaseWon, bool* runnerWon, Engine::TextureManager* textureManager_)
 {
 	auto players = entityManager_->GetAllEntitiesWithComponents<Engine::PlayerComponent>();
 	ASSERT(players.size() == 2, "Must be excatly two players");
@@ -123,17 +129,46 @@ void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityMan
 		bool moveLeft = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveLeft", tag));
 		bool moveRight = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveRight", tag));
 		bool jump = Engine::InputManager::IsActionActive(input, fmt::format("Player{}Jump", tag));
-
+		bool throw2 = Engine::InputManager::IsActionActive(input, fmt::format("Player{}Throw", tag));
 
 		MoveWheel(dt_, moveLeft, moveRight, physics);
 		HandleGasAndBreaking(dt_, moveUp, moveDown, physics);
 		SteerTheCar(dt_, player);
 		HandleJump(dt_, jump, player, audioManager_);
-		CollideWithOtherEntities(dt_, player);
+		CollideWithOtherEntities(dt_, player,chaseWon);
+		if (i == 1)
+			RunnerThrows(dt_, throw2, player, entityManager_, textureManager_);
+
+	}
+	auto transform1 = players[0]->GetComponent<Engine::TransformComponent>();
+	auto transform2 = players[1]->GetComponent<Engine::TransformComponent>();
+
+	int Distance = std::sqrt(std::pow((transform1->m_Position.x) - (transform2->m_Position.x), 2) + std::pow((transform1->m_Position.y) - (transform2->m_Position.y), 2));
+
+	if ((int)Distance > 1230) {
+		auto playerCarPhysics1 = players[0]->GetComponent<CarPhysicsComponent>();
+		auto playerCarPhysics2 = players[1]->GetComponent<CarPhysicsComponent>();
+		playerCarPhysics1->m_CarSpeed = 0.f;
+		playerCarPhysics2->m_CarSpeed = 0.f;
+
+		*runnerWon = true;
 	}
 
 }
 
+void Nitro::PlayerController::RunnerThrows(float dt_, bool throws, Engine::Entity* player, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
+
+	auto position = player->GetComponent<Engine::TransformComponent>();
+	if (throws) {
+		auto obstical = Engine::Entity::Create();
+		obstical->AddComponent<Engine::TransformComponent>(position->m_Position.x, position->m_Position.y);
+		obstical->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("obstical");
+		obstical->AddComponent<Engine::CollisionComponent>(30.f);
+		obstical->AddComponent<Engine::DrawableEntity>();
+
+		entityManager_->AddEntity(std::move(obstical));
+	}
+}
 
 
 
@@ -200,7 +235,7 @@ void Nitro::PlayerController::SteerTheCar(float dt_, Engine::Entity* player)
 	transform->m_Rotation = 90.f + RadiansToDegrees(physics->m_CarHeading);
 }
 
-void Nitro::PlayerController::CollideWithOtherEntities(float dt_, Engine::Entity* player)
+void Nitro::PlayerController::CollideWithOtherEntities(float dt_, Engine::Entity* player, bool *chaseWon)
 {
 	auto collidedWithComponent = player->GetComponent<Engine::CollidedWithComponent>();
 	auto playerCarPhysics = player->GetComponent<CarPhysicsComponent>();
@@ -211,6 +246,11 @@ void Nitro::PlayerController::CollideWithOtherEntities(float dt_, Engine::Entity
 			auto entityCarPhysics = entity->GetComponent<CarPhysicsComponent>();
 
 			entity->GetComponent<Engine::CollidedWithComponent>()->m_CollidedWith.erase(player);
+
+			*chaseWon = true;
+			playerCarPhysics->m_CarSpeed = 0.f;
+			entityCarPhysics->m_CarSpeed = 0.f;
+
 		}
 	}
 }
@@ -247,6 +287,7 @@ void Nitro::PlayerController::HandleJump(float dt_, bool jump, Engine::Entity* p
 		}
 		
 	}
+
 }
 /*
  * CarPhysics: Jumping, collision, 

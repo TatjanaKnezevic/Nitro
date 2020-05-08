@@ -10,6 +10,7 @@ namespace Nitro
 	class CameraController;
 	class TextController;
 	class AudioController;
+	class TheChaseController;
 
 	class GameApp : public Engine::Application
 	{
@@ -24,6 +25,8 @@ namespace Nitro
 		std::unique_ptr<TrackController> m_TrackController;
 		std::unique_ptr<TextController> m_TextController;
 		std::unique_ptr<AudioController> m_AudioController;
+		std::unique_ptr<TheChaseController> m_TheChaseController;
+		bool chaseWon = false, runnerWon = false;
 		
 #if _DEBUG
 		std::unique_ptr<DebugController> m_DebugController;

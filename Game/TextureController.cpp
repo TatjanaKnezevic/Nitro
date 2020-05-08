@@ -20,7 +20,17 @@ bool Nitro::TextureController::Init(Engine::Renderer* renderer_, Engine::Texture
 		return false;
 	}
 
-	
+	if (!textureManager_->CreateTexture(renderer_, "winner", texturesRootDir_ + "/winner.jpg"))
+	{
+		LOG_ERROR("Failed to create winner");
+		return false;
+	}
+
+	if (!textureManager_->CreateTexture(renderer_, "obstical", texturesRootDir_ + "/sand1.png"))
+	{
+		LOG_ERROR("Failed to create winner");
+		return false;
+	}
 
 	for(int i = 0; i < (int)TileType::TileTypeCount; ++i)
 	{

@@ -100,6 +100,8 @@ namespace Engine
         m_InputActions["PanCameraLeft"] = 'Y';
         m_InputActions["PanCameraDown"] = 'Y';
         m_InputActions["PanCameraRight"] = 'Y';
+        m_InputActions["Player1Throw"] = 'Q';
+        m_InputActions["Player2Throw"] = 'M';
     }
 
     bool InputManager::IsActionActive(InputComponent* inputComponent, EInputAction targetAction)
