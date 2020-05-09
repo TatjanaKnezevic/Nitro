@@ -20,7 +20,13 @@ bool Nitro::TextureController::Init(Engine::Renderer* renderer_, Engine::Texture
 		return false;
 	}
 
-	if (!textureManager_->CreateTexture(renderer_, "winner", texturesRootDir_ + "/winner.jpg"))
+	if (!textureManager_->CreateTexture(renderer_, "chaserwon", texturesRootDir_ + "/chaserwon.png"))
+	{
+		LOG_ERROR("Failed to create winner");
+		return false;
+	}
+
+	if (!textureManager_->CreateTexture(renderer_, "runnerwon", texturesRootDir_ + "/runnerwon.png"))
 	{
 		LOG_ERROR("Failed to create winner");
 		return false;

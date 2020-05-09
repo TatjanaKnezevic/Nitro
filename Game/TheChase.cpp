@@ -28,7 +28,7 @@ void Nitro::TheChaseController::Update(float dt_, Engine::EntityManager* entityM
 
 		auto winner = Engine::Entity::Create();
 		winner->AddComponent<Engine::TransformComponent>(transform1->m_Position.x, transform1->m_Position.y);
-		winner->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("winner");
+		winner->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("runnerwon");
 		winner->AddComponent<Engine::DrawableEntity>();
 		entityManager_->AddEntity(std::move(winner));
 
@@ -43,7 +43,7 @@ void Nitro::TheChaseController::Update(float dt_, Engine::EntityManager* entityM
 
 		auto winner = Engine::Entity::Create();
 		winner->AddComponent<Engine::TransformComponent>(transform1->m_Position.x, transform1->m_Position.y);
-		winner->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("winner");
+		winner->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("chaserwon");
 		winner->AddComponent<Engine::DrawableEntity>();
 		entityManager_->AddEntity(std::move(winner));
 
