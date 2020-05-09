@@ -52,16 +52,30 @@ bool Nitro::TextController::Init(Engine::EntityManager* entityManager_) {
 	mile2->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Distance, player2);
 	entityManager_->AddEntity(std::move(mile2));
 
+	auto chase = player1->GetComponent<TheChaseComponent>()->m_TheChase;
+
 	auto chaser = Engine::Entity::Create();
 	chaser->AddComponent<Engine::TextComponent>("CHASER");
-	chaser->AddComponent<Engine::TransformComponent>(120.f, 15.f);
+	if (chase == TheChase::Chaser) {
 	chaser->AddComponent<TextInfoComponent>(PlayerTag::One, TextInfoType::Runner, player1);
+	chaser->AddComponent<Engine::TransformComponent>(120.f, 15.f);
+	}
+	else {
+	chaser->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Runner, player2);
+	chaser->AddComponent<Engine::TransformComponent>(1000.f, 15.f);
+	}
 	entityManager_->AddEntity(std::move(chaser));
 
 	auto runner = Engine::Entity::Create();
 	runner->AddComponent<Engine::TextComponent>("RUNNER");
-	runner->AddComponent<Engine::TransformComponent>(1000.f, 15.f);
-	runner->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Runner, player2);
+	if (chase == TheChase::Chaser) {
+		runner->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Runner, player2);
+		runner->AddComponent<Engine::TransformComponent>(1000.f, 15.f);
+	}
+	else {
+		runner->AddComponent<TextInfoComponent>(PlayerTag::One, TextInfoType::Runner, player1);
+		runner->AddComponent<Engine::TransformComponent>(120.f, 15.f);
+	}
 	entityManager_->AddEntity(std::move(runner));
 
 

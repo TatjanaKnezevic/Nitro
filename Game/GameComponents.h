@@ -57,8 +57,8 @@ namespace Nitro
 
 	enum class TheChase
 	{
-		Chaser = 1,
-		Runner = 2
+		Chaser = 0,
+		Runner = 1
 	};
 
 	inline int
@@ -83,7 +83,7 @@ namespace Nitro
 	inline TheChase
 		TheChaseFromInt(int p)
 	{
-		ASSERT(p == 1 || p == 2, "int TheChase value must be 1 or 2");
+		ASSERT(p == 0 || p == 1, "int TheChase value must be 0 or 1");
 		return static_cast<TheChase>(p);
 	}
 	

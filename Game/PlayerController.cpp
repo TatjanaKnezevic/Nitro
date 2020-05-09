@@ -34,13 +34,14 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 	auto firstRoadTile = FindRoadTileAtLayer(trackComponent->m_TracksMatrix, lowestLayer - 6);
 	auto firstRoadTilePosition = firstRoadTile->GetComponent<Engine::TransformComponent>()->m_Position;
 	auto firstRoadTileSize = firstRoadTile->GetComponent<Engine::TransformComponent>()->m_Size;
-	
+	int chase = 0;
+
 	for (int i = 1; i <= 2; ++i)
 	{
 		auto player = Engine::Entity::Create();
 		player->AddComponent<Engine::DrawableEntity>();
 
-		
+
 		auto& transform = player->AddComponent<Engine::TransformComponent>(firstRoadTilePosition.x - firstRoadTileSize.x / 4,
 			firstRoadTilePosition.y - firstRoadTileSize.y / 4, 50.f, 50.f);
 
@@ -49,7 +50,7 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 			transform.m_Position = vec2{ firstRoadTilePosition.x + firstRoadTileSize.x / 4,
 			firstRoadTilePosition.y - firstRoadTileSize.y / 4 };
 		}
-		
+
 
 		player->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture(fmt::format("player{}Texture", i));
 		player->AddComponent<Engine::CollisionComponent>(40.f);
@@ -72,15 +73,17 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 		input.inputActions.emplace_back(fmt::format("Player{}MoveLeft", i));
 		input.inputActions.emplace_back(fmt::format("Player{}MoveRight", i));
 		input.inputActions.emplace_back(fmt::format("Player{}Jump", i));
-		if (i == 2)
-		{
-			input.inputActions.emplace_back(fmt::format("Player{}Throw", i));
-		}
+		input.inputActions.emplace_back(fmt::format("Player{}Throw", i));
 
 		// input.inputActions.emplace_back("Player1Jump");
 
 		player->AddComponent<PlayerTagComponent>(PlayerTagFromInt(i));
-		player->AddComponent<TheChaseComponent>(TheChaseFromInt(i));
+		if (i == 1) {
+		chase = std::rand() % 2;
+		player->AddComponent<TheChaseComponent>(TheChaseFromInt(chase));
+		} else {
+			player->AddComponent<TheChaseComponent>(TheChaseFromInt((chase+1)%2));
+		}
 
 		auto& physics = player->AddComponent<CarPhysicsComponent>();
 
@@ -137,8 +140,7 @@ void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityMan
 		SteerTheCar(dt_, player);
 		HandleJump(dt_, jump, player, audioManager_);
 		CollideWithOtherEntities(dt_, player,chaseWon);
-		if (i == 1)
-			RunnerThrows(dt_, throw2, player, entityManager_, textureManager_);
+		RunnerThrows(dt_, throw2, player, entityManager_, textureManager_);
 
 	}
 	auto transform1 = players[0]->GetComponent<Engine::TransformComponent>();
