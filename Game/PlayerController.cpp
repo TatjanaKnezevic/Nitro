@@ -148,7 +148,7 @@ void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityMan
 
 	int Distance = std::sqrt(std::pow((transform1->m_Position.x) - (transform2->m_Position.x), 2) + std::pow((transform1->m_Position.y) - (transform2->m_Position.y), 2));
 
-	if ((int)Distance > 1250) {
+	if ((int)Distance > 2000) {
 		auto playerCarPhysics1 = players[0]->GetComponent<CarPhysicsComponent>();
 		auto playerCarPhysics2 = players[1]->GetComponent<CarPhysicsComponent>();
 		playerCarPhysics1->m_CarSpeed = 0.f;
