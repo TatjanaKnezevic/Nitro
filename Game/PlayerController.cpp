@@ -104,7 +104,8 @@ bool Nitro::PlayerController::Init(Engine::EntityManager* entityManager_, Engine
 
 
 
-void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityManager_, Engine::AudioManager* audioManager_, bool* chaseWon, bool* runnerWon, Engine::TextureManager* textureManager_)
+void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityManager_, Engine::AudioManager* audioManager_, bool* chaseWon, bool* runnerWon,
+	Engine::TextureManager* textureManager_)
 {
 	auto players = entityManager_->GetAllEntitiesWithComponents<Engine::PlayerComponent>();
 	ASSERT(players.size() == 2, "Must be excatly two players");
@@ -145,7 +146,7 @@ void Nitro::PlayerController::Update(float dt_, Engine::EntityManager* entityMan
 
 	int Distance = std::sqrt(std::pow((transform1->m_Position.x) - (transform2->m_Position.x), 2) + std::pow((transform1->m_Position.y) - (transform2->m_Position.y), 2));
 
-	if ((int)Distance > 1230) {
+	if ((int)Distance > 1250) {
 		auto playerCarPhysics1 = players[0]->GetComponent<CarPhysicsComponent>();
 		auto playerCarPhysics2 = players[1]->GetComponent<CarPhysicsComponent>();
 		playerCarPhysics1->m_CarSpeed = 0.f;

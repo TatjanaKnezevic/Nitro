@@ -32,6 +32,12 @@ void Nitro::TheChaseController::Update(float dt_, Engine::EntityManager* entityM
 		winner->AddComponent<Engine::DrawableEntity>();
 		entityManager_->AddEntity(std::move(winner));
 
+		/*auto player = Engine::Entity::Create();
+		player->AddComponent<Engine::TransformComponent>(transform1->m_Position.x, transform1->m_Position.y + 300);
+		player->AddComponent<Engine::TextComponent>("Runner");
+		player->AddComponent<TextInfoComponent>(PlayerTag::Two, TextInfoType::Runner, player2);
+		entityManager_->AddEntity(std::move(player));*/
+
 	}
 	if (chaseWon) {
 
@@ -41,6 +47,11 @@ void Nitro::TheChaseController::Update(float dt_, Engine::EntityManager* entityM
 		winner->AddComponent<Engine::DrawableEntity>();
 		entityManager_->AddEntity(std::move(winner));
 
+		/*auto player = Engine::Entity::Create();
+		player->AddComponent<Engine::TransformComponent>(transform1->m_Position.x, transform1->m_Position.y + 300);
+		player->AddComponent<Engine::TextComponent>("Chaser");
+		player->AddComponent<TextInfoComponent>(PlayerTag::One, TextInfoType::Runner, player1);
+		entityManager_->AddEntity(std::move(player));*/
 	}
 
 }
